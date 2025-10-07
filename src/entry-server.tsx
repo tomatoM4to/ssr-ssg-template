@@ -12,7 +12,7 @@ export function render(_url: string) {
   const url = `/${_url}`;
 
   // call SSR function or API here and pass the result as props
-  const result = "# React Markdown"
+  const result = "# 서버에서 렌더링됨!"
   // const result = md.render('# markdown-it rulezz!');
 
   const html = renderToString(

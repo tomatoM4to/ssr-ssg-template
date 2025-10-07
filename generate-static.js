@@ -17,6 +17,7 @@ const generatePage = async (route) => {
   const cleanRoute = route.replace(/\?/g, "_").replace(/%20/g, "-"); // Replace "?" with "_" for filenames
   const render = (await import("./dist/server/entry-server.js")).render;
   const html = await render(route);
+  const initialData = JSON.stringify(html.result);
 
   // clone the template with template.html [this file if that page not required SSG then SSR will use]
   if (route === "") {
@@ -30,7 +31,11 @@ const generatePage = async (route) => {
   // Inject head and body content properly
   const outputHtml = template
     .replace("<!--app-head-->", html.head ?? "") // Inject head content
-    .replace("<!--app-html-->", html.html ?? ""); // Inject body content
+    .replace("<!--app-html-->", html.html ?? "") // Inject body content
+    .replace(
+      "<!--app-window-->",
+      `<script>window.__INITIAL_DATA__ = ${initialData}</script>`
+    );
 
   // console.log(outputHtml, 'output23123');
 
