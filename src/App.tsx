@@ -2,8 +2,13 @@ import './App.css'
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import { Link, Route, Routes } from "react-router";
+import Markdown from 'react-markdown';
 
-function App() {
+function App({
+  markdown
+}: {
+  markdown: string
+}) {
   const [count, setCount] = useState(0)
 
   return (
@@ -16,6 +21,11 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
       </Routes>
+
+      <Markdown>
+        {markdown}
+      </Markdown>
+      {/* <div dangerouslySetInnerHTML={{ __html: markdown }} /> */}
 
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>

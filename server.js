@@ -52,10 +52,15 @@ app.use('*all', async (req, res) => {
     }
 
     const rendered = await render(url)
+    const initialData = JSON.stringify(rendered.result);
 
     const html = template
       .replace(`<!--app-head-->`, rendered.head ?? '')
       .replace(`<!--app-html-->`, rendered.html ?? '')
+      .replace(
+        '<!--app-window-->',
+        `<script>window.__INITIAL_DATA__ = ${initialData}</script>`
+      )
 
     res.status(200).set({ 'Content-Type': 'text/html' }).send(html)
   } catch (e) {
